@@ -21,6 +21,7 @@
     vim
     git
     zoxide
+    wget
   ];
 
   users.users.nixos = {
@@ -30,7 +31,9 @@
     ];
     shell = pkgs.zsh;
   };
-
+  
+  programs.direnv.enable = true;
+  programs.nix-ld.enable = true;
   programs.zsh.enable = true;
 
   home-manager = {
