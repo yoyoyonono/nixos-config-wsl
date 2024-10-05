@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -11,7 +12,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, nix-flatpak, ... }@inputs:
+  outputs = { self, nixpkgs, nixos-hardware, nix-flatpak, nixos-wsl, ... }@inputs:
     {
       nixosConfigurations.default = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs;};
@@ -19,6 +20,10 @@
             ./configuration.nix
             inputs.home-manager.nixosModules.default
             nix-flatpak.nixosModules.nix-flatpak
+            nixos-wsl.nixosModules.default {
+              system.stateVersion = "24.05";
+              wsl.enable = true;
+            }
           ];
         };
     };
