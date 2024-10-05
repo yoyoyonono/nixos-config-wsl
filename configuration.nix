@@ -9,7 +9,7 @@
 
 {
   imports = [
-    # include NixOS-WSL modules
+    ./hardware-configuration.nix    
   ];
 
   wsl.enable = true;
@@ -20,12 +20,14 @@
   ];
 
   users.users.nixos = {
-    isNormaluser = true;
+    isNormalUser = true;
     description = "nixos";
     packages = with pkgs; [
     ];
     shell = pkgs.zsh;
   };
+
+  programs.zsh.enable = true;
 
   home-manager = {
     extraSpecialArgs = {inherit inputs; };
