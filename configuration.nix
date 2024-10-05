@@ -19,6 +19,13 @@
   environment.systemPackages = with pkgs; [
     vim
   ];
+
+  home-manager = {
+    extraSpecialArgs = {inherit inputs; };
+    users = {
+      "nixos" = import ./home.nix;
+    };
+  };
   
 
   # This value determines the NixOS release from which the default
