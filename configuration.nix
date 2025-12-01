@@ -19,6 +19,7 @@
 
   environment.systemPackages = with pkgs; [
     vim
+    gh
     git
     zoxide
     wget
