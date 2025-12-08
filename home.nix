@@ -36,6 +36,7 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    ghostty
     fzf
     zsh
     zsh-powerlevel10k
