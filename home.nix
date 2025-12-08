@@ -56,13 +56,15 @@
     # '';
 
     ".vim_runtime/" = {
-          source =  builtins.fetchGit {
-            url = "https://github.com/amix/vimrc";
-            rev = "46294d589d15d2e7308cf76c58f2df49bbec31e8";
-          };
-          recursive = true;
-        };
+      source =  builtins.fetchGit {
+        url = "https://github.com/amix/vimrc";
+        rev = "46294d589d15d2e7308cf76c58f2df49bbec31e8";
       };
+      recursive = true;
+    };
+
+    ".config/ghostty/config".source = dotfiles/ghostty/config;
+  };
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. If you don't want to manage your shell through Home
