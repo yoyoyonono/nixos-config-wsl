@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -36,6 +36,7 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    fzf
     zsh
     zsh-powerlevel10k
   ];
@@ -53,7 +54,15 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-  };
+
+    ".vim_runtime/" = {
+          source =  builtins.fetchGit {
+            url = "https://github.com/amix/vimrc";
+            rev = "46294d589d15d2e7308cf76c58f2df49bbec31e8";
+          };
+          recursive = true;
+        };
+      };
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. If you don't want to manage your shell through Home
@@ -81,6 +90,12 @@
   
   programs.zsh = {
     enable = true;
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "fzf"
+      ];
+    };
     zplug = {
       enable = true;
       plugins = [
@@ -90,15 +105,44 @@
         }
       ];
     };
-    initExtra = ''
-      # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-      [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-      eval "$(zoxide init zsh)"
-    '';
-    initExtraBeforeCompInit = ''
+    initContent = lib.mkOrder 550 ''
       # p10k instant prompt
       P10K_INSTANT_PROMPT="$XDG_CACHE_HOME/p10k-instant-prompt-''${(%):-%n}.zsh"
       [[ ! -r "$P10K_INSTANT_PROMPT" ]] || source "$P10K_INSTANT_PROMPT"
+      # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+      [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+      eval "$(zoxide init zsh)"
+      eval "$(direnv hook zsh)"
     '';
   };
+
+  programs.vim = {
+    enable = true;
+    extraConfig = ''
+    " for amix/vimrc
+    set runtimepath+=~/.vim_runtime
+
+    source ~/.vim_runtime/vimrcs/basic.vim
+    source ~/.vim_runtime/vimrcs/filetypes.vim
+    source ~/.vim_runtime/vimrcs/plugins_config.vim
+    source ~/.vim_runtime/vimrcs/extended.vim
+
+    " actual config
+
+    set noswapfile
+    set number
+    set textwidth=0
+    '';
+  };
+  
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      manager = {
+        show_hidden = true;
+      };
+    };
+  };
+
 }
