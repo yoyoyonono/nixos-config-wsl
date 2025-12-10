@@ -34,7 +34,12 @@
   };
   
   programs.direnv.enable = true;
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      openssl
+    ];
+  };
   programs.zsh.enable = true;
 
   home-manager = {
