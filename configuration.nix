@@ -33,6 +33,7 @@
     packages = with pkgs; [
     ];
     shell = pkgs.zsh;
+    extraGroups = [ "docker" ];
   };
   
   programs.direnv.enable = true;
